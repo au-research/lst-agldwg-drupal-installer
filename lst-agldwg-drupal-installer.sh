@@ -143,8 +143,8 @@ composer config --json extra.enable-patching true
 
 composer config repositories.lst-agldwg-theme \
   vcs https://git.ands.org.au/scm/lst/lst-agldwg-drupal-theme.git
-composer config repositories.x1-custom-module-x1 \
-  vcs https://github.com/rwalkerands/x1-custom-module-x1.git
+composer config repositories.lst-agldwg \
+  vcs https://git.ands.org.au/scm/lst/lst-agldwg-drupal-module.git
 composer config repositories.lst-agldwg-block-content \
   vcs https://git.ands.org.au/scm/lst/lst-agldwg-drupal-block-content.git
 # We need dev versions of some modules. Because they have lower stability,
@@ -167,7 +167,7 @@ composer require \
  drupal/tr_rulez:1.x-dev
 
 # Now we're ready to install our project module.
-composer require ardc/x1-custom-module-x1
+composer require ardc/lst-agldwg
 
 # We will do some patching; use composer-patches for this.
 # We apply the patches only _after_ installing all our custom modules;
@@ -180,7 +180,7 @@ DRUSH="${ROOT}/${INST_DIR}/vendor/bin/drush ${DRUSH_URI}"
 # Patch vendor/drush/drush/src/Sql/SqlMysql.php
 # to use the correct character set and collation for MySQL.
 # No, we no longer need to do this here; we do it using a patch specified
-# in x1-custom-module-x1's composer.json.
+# in lst-agldwg's composer.json.
 # sed -i -e \
 # 's+DEFAULT CHARACTER SET utf8 +DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci +' \
 #   vendor/drush/drush/src/Sql/SqlMysql.php
@@ -369,23 +369,23 @@ ${DRUSH} theme:enable agldwg
 ${DRUSH} cset -y system.theme default agldwg
 
 # Enable modules.
-${DRUSH} en -y x1 lst_agldwg_block_content
+${DRUSH} en -y lst_agldwg lst_agldwg_block_content
 
-# AFTER enabling the x1 module, run this to import the
+# AFTER enabling the lst_agldwg module, run this to import the
 # registry_item_status taxonomy:
 ${DRUSH} cim --partial -y \
-         --source=modules/custom/x1-custom-module-x1/config/taxonomies
+         --source=modules/custom/lst-agldwg/config/taxonomies
 ${DRUSH} it --choice=force
 
 # AFTER enabling the lst_agldwg_block_content module, run this to import and
 # use the custom block content:
 ${DRUSH} migrate:import --all --execute-dependencies
-${DRUSH} cim --partial --source=modules/custom/x1-custom-module-x1/config/blocks -y
+${DRUSH} cim --partial --source=modules/custom/lst-agldwg/config/blocks -y
 
 # Configure the backup destination directory.
 # NB 1: the directory must be writable.
 # NB 2: the path must use a "stream", i.e., have "://" in it.
-${DRUSH} cset -y backup_migrate.backup_migrate_destination.x1_backups \
+${DRUSH} cset -y backup_migrate.backup_migrate_destination.lst_backups \
          config.directory private://backups
 # NB: After a subsequent syncing of the config, you may (?) have to
 # reset this config value.

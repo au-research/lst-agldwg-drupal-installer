@@ -141,8 +141,8 @@ composer config scripts.post-update-cmd \
 # the string value "true".
 composer config --json extra.enable-patching true
 
-composer config repositories.x1-custom-theme-agldwg \
-  vcs https://github.com/rwalkerands/x1-custom-theme-agldwg.git
+composer config repositories.lst-agldwg-theme \
+  vcs https://git.ands.org.au/scm/lst/lst-agldwg-drupal-theme.git
 composer config repositories.x1-custom-module-x1 \
   vcs https://github.com/rwalkerands/x1-custom-module-x1.git
 composer config repositories.lst-agldwg-block-content \

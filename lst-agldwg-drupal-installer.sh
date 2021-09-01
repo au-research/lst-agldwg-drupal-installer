@@ -302,6 +302,8 @@ if [[ -n "${FILE_PUBLIC_PATH}" ]] ; then
         mv -f "${FILE_PUBLIC_PATH}" "${FILE_PUBLIC_PATH}-$(date '+%s')" || \
             { echo "Unable to rename existing public path" ; exit 1 ; }
     fi
+    # Conversely, ensure that the parent directory exists
+    mkdir -p $(dirname "${FILE_PUBLIC_PATH}")
     # Now move it into place.
     mv -f files "${FILE_PUBLIC_PATH}" || \
             { echo "Unable to move public files directory" ; exit 1 ; }

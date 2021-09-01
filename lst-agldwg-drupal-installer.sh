@@ -122,12 +122,13 @@ composer create-project drupal/recommended-project ${INST_DIR} ${INST_VERSION}
 cd $INST_DIR
 
 # Define scripts to remove the embedded .git directories
-# that we get because of requiring development versions.
+# that we get because of requiring development/patched versions of contrib
+# modules, and for our own modules.
 # Specify -prune to avoid these errors:
 #  "find: web/modules/contrib/mimemail/.git: No such file or directory";
 #  see https://stackoverflow.com/a/38980693/3765696 .
 composer config scripts.removeEmbeddedGit \
-  "find web/modules -name .git -prune -exec rm -rf '{}' ';'"
+  "find web/modules web/themes -name .git -prune -exec rm -rf '{}' ';'"
 # Doesn't work yet:
 #composer config scripts-descriptions.removeEmbeddedGit \
 #  "Remove .git directories found in modules"

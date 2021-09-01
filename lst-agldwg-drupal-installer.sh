@@ -148,24 +148,23 @@ composer config repositories.lst-agldwg \
   vcs https://git.ands.org.au/scm/lst/lst-agldwg-drupal-module.git
 composer config repositories.lst-agldwg-block-content \
   vcs https://git.ands.org.au/scm/lst/lst-agldwg-drupal-block-content.git
-# We need dev versions of some modules. Because they have lower stability,
-# they must be installed at the "top level":
-#  mimemail.
-#  typed_data. Needed for format_text("...") filter.
-#  rules.
-#  tr_rulez.
-# Was:
-# composer require drupal/backup_migrate:^5.0.x-dev \
-#  drupal/mimemail:1.x-dev#e72b92ec \
-#  drupal/typed_data:1.x-dev#27555f47 \
-#  drupal/rules:3.x-dev#615221d \
-#  drupal/tr_rulez:1.x-dev
-# But now some dev code has been incorporated into a release. So now:
+# We need dev/alpha versions of some modules.
+# Because they have lower stability, they must be installed
+# at the "top level":
+#  mimemail
+#  typed_data: Needed for format_text("...") filter.
+#  rules
+#  tr_rulez
+#  eme
+# From time to time, check if there's been a new release that
+# incorporates the features/fixes we need; remove from this
+# list if so.
 composer require \
  drupal/mimemail:1.x-dev#e72b92ec \
  drupal/typed_data:1.x-dev#27555f47 \
  drupal/rules:3.x-dev#615221d \
- drupal/tr_rulez:1.x-dev
+ drupal/tr_rulez:1.x-dev \
+ drupal/eme:1.0.0-alpha10
 
 # Now we're ready to install our project module.
 composer require ardc/lst-agldwg

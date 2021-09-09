@@ -142,12 +142,19 @@ composer config scripts.post-update-cmd \
 # the string value "true".
 composer config --json extra.enable-patching true
 
+# "Undocumented" feature, for ARDC-internal-only use. To configure
+# the repositories to use the internal Bitbucket,
+# specify LST_GIT_REPO_PREFIX=https://git.ands.org.au/scm/lst
+if [[ -z "${LST_GIT_REPO_PREFIX}" ]] ; then
+    LST_GIT_REPO_PREFIX=https://github.com/au-research
+fi
 composer config repositories.lst-agldwg-theme \
-  vcs https://git.ands.org.au/scm/lst/lst-agldwg-drupal-theme.git
+   vcs ${LST_GIT_REPO_PREFIX}/lst-agldwg-drupal-theme.git
 composer config repositories.lst-agldwg \
-  vcs https://git.ands.org.au/scm/lst/lst-agldwg-drupal-module.git
+   vcs ${LST_GIT_REPO_PREFIX}/lst-agldwg-drupal-module.git
 composer config repositories.lst-agldwg-block-content \
-  vcs https://git.ands.org.au/scm/lst/lst-agldwg-drupal-block-content.git
+   vcs ${LST_GIT_REPO_PREFIX}/lst-agldwg-drupal-block-content.git
+
 # We need dev/alpha versions of some modules.
 # Because they have lower stability, they must be installed
 # at the "top level":

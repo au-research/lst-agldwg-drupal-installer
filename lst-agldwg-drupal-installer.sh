@@ -318,8 +318,8 @@ if [[ -n "${FILE_PUBLIC_PATH}" ]] ; then
 
 \$settings['file_public_base_url'] = '${FILE_PUBLIC_BASE_URL}';
 \$settings['file_public_path'] = '${FILE_PUBLIC_PATH}';
-# In case we ever want to use it, set config_sync_directory.
-# NB: we don't create this directory here.
+# Overwrite the config_sync_directory setting of the original settings.php.
+# (The existence of this directory is checked by the "Status report".)
 \$settings['config_sync_directory'] = '${FILE_PRIVATE_PATH}/config_sync';
 EOF
     # TODO: Now update .htaccess
@@ -365,6 +365,9 @@ cd ../..
 # TODO: ensure writable by PHP
 #mkdir -p "${FILE_PRIVATE_PATH}/backup_migrate"
 mkdir -p "${FILE_PRIVATE_PATH}/backups"
+# Also create config_sync; the existence of this directory is checked
+# as part of the "Status report".
+mkdir -p "${FILE_PRIVATE_PATH}/config_sync"
 
 # ... and now back to the top level of the installation.
 cd ..

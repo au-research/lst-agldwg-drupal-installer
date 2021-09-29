@@ -469,7 +469,7 @@ ${DRUSH} cset -y user.role.control_body weight 2
 # content, and to delete and edit all content and administer comments.
 # NB: The list of permissions should match that for registry manager below.
 ${DRUSH} role:perm:add control_body \
-  'administer comments,create organisation content,create register content,delete any dataset content,delete any ontology content,delete any organisation content,delete any register content,delete any vocabulary content,edit any dataset content,edit any ontology content,edit any organisation content,edit any register content,edit any vocabulary content,edit field_date_accepted,edit field_registry_status,edit field_reviewer'
+  'access user contact forms,access user profiles,administer comments,create organisation content,create register content,delete any dataset content,delete any ontology content,delete any organisation content,delete any register content,delete any vocabulary content,edit any dataset content,edit any ontology content,edit any organisation content,edit any register content,edit any vocabulary content,edit field_date_accepted,edit field_registry_status,edit field_reviewer,view user email addresses'
 
 # Create registry manager role. We do it this way (i.e., using drush,
 # not a config file), so that we get the extra
@@ -482,7 +482,7 @@ ${DRUSH} cset -y user.role.registry_manager weight 3
 # content, and to delete and edit all content and administer comments.
 # NB: The list of permissions should match that for control body above.
 ${DRUSH} role:perm:add registry_manager \
-  'administer comments,create organisation content,create register content,delete any dataset content,delete any ontology content,delete any organisation content,delete any register content,delete any vocabulary content,edit any dataset content,edit any ontology content,edit any organisation content,edit any register content,edit any vocabulary content,edit field_date_accepted,edit field_registry_status,edit field_reviewer'
+  'access user contact forms,access user profiles,administer comments,create organisation content,create register content,delete any dataset content,delete any ontology content,delete any organisation content,delete any register content,delete any vocabulary content,edit any dataset content,edit any ontology content,edit any organisation content,edit any register content,edit any vocabulary content,edit field_date_accepted,edit field_registry_status,edit field_reviewer,view user email addresses'
 
 # Mailsystem settings
 ${DRUSH} cset --input-format=yaml -y \

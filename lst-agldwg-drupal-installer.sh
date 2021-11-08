@@ -387,7 +387,19 @@ ${DRUSH} en -y lst_agldwg lst_agldwg_block_content
 # registry_item_status taxonomy:
 ${DRUSH} cim --partial -y \
          --source=modules/custom/lst-agldwg/config/taxonomies
+# We need to use --choice=force in order to preserve the tids used
+# in the original.
+# However, we now need a patch to structure_sync that currently only
+# supports --choice=full. So, oops.
+# We use --choice=force, and use our own patch of the patch so
+# that --choice=force is supported.
 ${DRUSH} it --choice=force
+# Now override the pathauto_state settings for the taxonomy terms
+# we just imported.
+${DRUSH} sqlc <<EOF
+update key_value set value='i:0;'
+  where collection='pathauto_state.taxonomy_term';
+EOF
 
 # AFTER enabling the lst_agldwg_block_content module, run this to import and
 # use the custom block content:

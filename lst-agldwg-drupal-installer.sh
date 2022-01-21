@@ -169,7 +169,7 @@ composer config repositories.lst-agldwg-block-content \
 composer require \
  drupal/mimemail:1.x-dev#e72b92ec \
  drupal/typed_data:1.x-dev#27555f47 \
- drupal/rules:3.x-dev#615221d \
+ drupal/rules:3.x-dev#8a63c77a \
  drupal/tr_rulez:1.x-dev \
  drupal/eme:1.0.0-alpha10
 

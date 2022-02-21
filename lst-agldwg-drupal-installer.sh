@@ -118,8 +118,27 @@ fi
 
 
 # INST_VERSION is optional; if omitted, you'll get the latest version
-composer create-project drupal/recommended-project ${INST_DIR} ${INST_VERSION}
+
+# EXTREMELY IMPORTANT! On 2022-02-21 we added the "-n" option to the
+# "composer create-project command" below, because of the combination
+# of (a) changes to composer 2.2 (b) lack of updates to Drupal, so
+# that create-project now issues prompts about plugins:
+#   composer/installers contains a Composer plugin which is currently not in your allow-plugins config. See https://getcomposer.org/allow-plugins
+#   Do you trust "composer/installers" to execute code and wish to enable it now? (writes "allow-plugins" to composer.json) [y,n,d,?]
+# Adding "-n" skips these prompts, but this is only supported until July 2022.
+# The output of composer now includes:
+#   For additional security you should declare the allow-plugins config with a list of packages names that are allowed to run code. See https://getcomposer.org/allow-plugins
+#   You have until July 2022 to add the setting. Composer will then switch the default behavior to disallow all plugins.
+# So we must revisit this later.
+composer -n create-project drupal/recommended-project ${INST_DIR} ${INST_VERSION}
 cd $INST_DIR
+# For now, add in the plugins we need, so we don't have to use "-n" in
+# subsequent composer commands.
+composer config --no-interaction allow-plugins.composer/installers true
+composer config --no-interaction allow-plugins.drupal/core-composer-scaffold true
+composer config --no-interaction allow-plugins.drupal/core-project-message true
+# Probably also need to do this one ourselves, even after Drupal core is patched.
+composer config --no-interaction allow-plugins.cweagans/composer-patches true
 
 # Define scripts to remove the embedded .git directories
 # that we get because of requiring development/patched versions of contrib

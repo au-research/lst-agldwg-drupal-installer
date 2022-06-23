@@ -39,7 +39,7 @@ ROOT="${PWD}"
 # ("Using getopts to read the options/arguments passed to a script"):
 # https://www.tldp.org/LDP/abs/html/internal.html#EX33
 
-if [ $# -eq 0 ]    # Script invoked with no command-line args?
+if [[ $# -eq 0 ]]    # Script invoked with no command-line args?
 then
   echo "Usage: $(basename "$0") options... (-e:)"
   exit 1
@@ -130,7 +130,7 @@ fi
 #   For additional security you should declare the allow-plugins config with a list of packages names that are allowed to run code. See https://getcomposer.org/allow-plugins
 #   You have until July 2022 to add the setting. Composer will then switch the default behavior to disallow all plugins.
 # So we must revisit this later.
-composer -n create-project drupal/recommended-project ${INST_DIR} ${INST_VERSION}
+composer -n create-project drupal/recommended-project "${INST_DIR}" "${INST_VERSION}"
 cd $INST_DIR
 # For now, add in the plugins we need, so we don't have to use "-n" in
 # subsequent composer commands.

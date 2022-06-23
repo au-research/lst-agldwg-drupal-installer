@@ -134,11 +134,13 @@ composer -n create-project drupal/recommended-project "${INST_DIR}" "${INST_VERS
 cd $INST_DIR
 # For now, add in the plugins we need, so we don't have to use "-n" in
 # subsequent composer commands.
+echo ARDC note: enabling Composer plugins. You may ignore the warnings ...
 composer config --no-interaction allow-plugins.composer/installers true
 composer config --no-interaction allow-plugins.drupal/core-composer-scaffold true
 composer config --no-interaction allow-plugins.drupal/core-project-message true
 # Probably also need to do this one ourselves, even after Drupal core is patched.
 composer config --no-interaction allow-plugins.cweagans/composer-patches true
+echo ARDC note: ... done enabling Composer plugins. Warnings are real again.
 
 # Define scripts to remove the embedded .git directories
 # that we get because of requiring development/patched versions of contrib

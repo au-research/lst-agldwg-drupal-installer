@@ -169,12 +169,31 @@ composer config --json extra.enable-patching true
 if [[ -z "${LST_GIT_REPO_PREFIX}" ]] ; then
     LST_GIT_REPO_PREFIX=https://github.com/au-research
 fi
+# Support even finer-grained specification of repository locations,
+# for use during testing changes to our stuff.  For example, to test
+# out proposed updates to the module, set LST_GIT_REPO_MODULE to point
+# to the local checkout of the repo containing the updates, e.g.,
+# LST_GIT_REPO_MODULE=/Users/rwalker/Documents/workspace/lst/lst-agldwg-drupal-module
+# NB: any changes in these repos that are to be tested must be _committed_
+# to the repos, because composer does a _checkout_ of the repo.
+# I.e., any uncommitted changes, whether staged or unstaged, will
+# not be picked up.
+if [[ -z "${LST_GIT_REPO_THEME}" ]] ; then
+    LST_GIT_REPO_THEME="${LST_GIT_REPO_PREFIX}/lst-agldwg-drupal-theme.git"
+fi
+if [[ -z "${LST_GIT_REPO_MODULE}" ]] ; then
+    LST_GIT_REPO_MODULE="${LST_GIT_REPO_PREFIX}/lst-agldwg-drupal-module.git"
+fi
+if [[ -z "${LST_GIT_REPO_BLOCK_CONTENT}" ]] ; then
+    LST_GIT_REPO_BLOCK_CONTENT="${LST_GIT_REPO_PREFIX}/lst-agldwg-drupal-block-content.git"
+fi
+
 composer config repositories.lst-agldwg-theme \
-   vcs ${LST_GIT_REPO_PREFIX}/lst-agldwg-drupal-theme.git
+   vcs "${LST_GIT_REPO_THEME}"
 composer config repositories.lst-agldwg \
-   vcs ${LST_GIT_REPO_PREFIX}/lst-agldwg-drupal-module.git
+   vcs "${LST_GIT_REPO_MODULE}"
 composer config repositories.lst-agldwg-block-content \
-   vcs ${LST_GIT_REPO_PREFIX}/lst-agldwg-drupal-block-content.git
+   vcs "${LST_GIT_REPO_BLOCK_CONTENT}"
 
 # We need dev/alpha versions of some modules.
 # Because they have lower stability, they must be installed

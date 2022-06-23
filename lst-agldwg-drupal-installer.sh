@@ -221,8 +221,20 @@ composer require ardc/lst-agldwg
 # patches against drupal/core aren't done otherwise.
 composer require cweagans/composer-patches:~1.0 --update-with-dependencies
 
-# Now we know where drush is.
-DRUSH="${ROOT}/${INST_DIR}/vendor/bin/drush ${DRUSH_URI}"
+# Now we know where drush is ...
+DRUSH="${ROOT}/${INST_DIR}/vendor/bin/drush"
+# But make sure it exists.
+# (Hint for tests: -f: exists and regular file; -r: exists and readable;
+#  -x: exists and executable.)
+if [[ ! ( -f "${DRUSH}" && -r "${DRUSH}" && -x "${DRUSH}" ) ]] ; then
+    echo The drush script is missing. Something is very wrong. Aborting.
+    exit 1
+fi
+
+# We're not using the Drupal "default" site, so we always need to
+# specify the site explicitly. Therefore, we may as well append
+# DRUSH_URI.
+DRUSH="${DRUSH} ${DRUSH_URI}"
 
 # Patch vendor/drush/drush/src/Sql/SqlMysql.php
 # to use the correct character set and collation for MySQL.
@@ -245,6 +257,10 @@ ${DRUSH} -y si \
   --site-name="${SI_SITE_NAME}" \
   ${SI_SITES_SUBDIR_OPTION}
 
+if [[ ! -d web/sites ]] ; then
+    echo The web/sites directory is missing. Something is very wrong. Aborting.
+    exit 1
+fi
 cd web/sites
 # $sites['localhost.example'] = 'example.com';
 # Support optional SI_SITES_SUBDIR setting. If it was given,
@@ -254,8 +270,21 @@ if [[ -n "${SI_SITES_SUBDIR}" && -n "${SITES_KEY}" ]] ; then
     echo "\$sites['${SITES_KEY}'] = '${SI_SITES_SUBDIR}';" >> sites.php
 fi
 
-cd ${SITE_SUBDIR}
-chmod +w . settings.php settings settings/*
+if [[ ! -d "${SITE_SUBDIR}" ]] ; then
+    echo The site subdirectory is missing. Aborting.
+    exit 1
+fi
+cd "${SITE_SUBDIR}"
+# We'd like to use "chmod -f" here, because it's usually the case that
+# "settings" and "settings/*" don't exist at this stage, i.e.,
+#   chmod -f +w . settings.php settings settings/*
+# ... but sigh: the -f option doesn't work this way on Mac OS: you still
+# get "No such file or directory"!
+# So do it in two stages:
+chmod +w . settings.php
+if [[ -d settings ]] ; then
+    chmod +w settings settings/*
+fi
 # Add trusted_host_patterns setting.
 # Use a trick to make idempotent; we don't want to lose
 # the original settings.php!

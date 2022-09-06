@@ -124,7 +124,6 @@ fi
 # some verbose logging, e.g., by setting
 # COMPOSER="composer -v"
 COMPOSER="composer"
-COMPOSER="composer -v"
 
 # EXTREMELY IMPORTANT! On 2022-02-21 we added the "-n" option to the
 # "${COMPOSER} create-project command" below, because of the combination

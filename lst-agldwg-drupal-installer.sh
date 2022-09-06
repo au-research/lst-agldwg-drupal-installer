@@ -119,8 +119,15 @@ fi
 
 # INST_VERSION is optional; if omitted, you'll get the latest version
 
+# Now setup the composer command.
+# In case something goes wrong, temporarily enable
+# some verbose logging, e.g., by setting
+# COMPOSER="composer -v"
+COMPOSER="composer"
+COMPOSER="composer -v"
+
 # EXTREMELY IMPORTANT! On 2022-02-21 we added the "-n" option to the
-# "composer create-project command" below, because of the combination
+# "${COMPOSER} create-project command" below, because of the combination
 # of (a) changes to composer 2.2 (b) lack of updates to Drupal, so
 # that create-project now issues prompts about plugins:
 #   composer/installers contains a Composer plugin which is currently not in your allow-plugins config. See https://getcomposer.org/allow-plugins
@@ -130,11 +137,11 @@ fi
 #   For additional security you should declare the allow-plugins config with a list of packages names that are allowed to run code. See https://getcomposer.org/allow-plugins
 #   You have until July 2022 to add the setting. Composer will then switch the default behavior to disallow all plugins.
 # So we must revisit this later.
-composer -n create-project drupal/recommended-project "${INST_DIR}" "${INST_VERSION}"
+${COMPOSER} -n create-project drupal/recommended-project "${INST_DIR}" "${INST_VERSION}"
 cd $INST_DIR
 
 # Explicitly enable composer-patches to do its job.
-composer config --no-interaction allow-plugins.cweagans/composer-patches true
+${COMPOSER} config --no-interaction allow-plugins.cweagans/composer-patches true
 
 # Define scripts to remove the embedded .git directories
 # that we get because of requiring development/patched versions of contrib
@@ -142,20 +149,20 @@ composer config --no-interaction allow-plugins.cweagans/composer-patches true
 # Specify -prune to avoid these errors:
 #  "find: web/modules/contrib/mimemail/.git: No such file or directory";
 #  see https://stackoverflow.com/a/38980693/3765696 .
-composer config scripts.removeEmbeddedGit \
+${COMPOSER} config scripts.removeEmbeddedGit \
   "find web/modules web/themes -name .git -prune -exec rm -rf '{}' ';'"
 # Doesn't work yet:
-#composer config scripts-descriptions.removeEmbeddedGit \
+#${COMPOSER} config scripts-descriptions.removeEmbeddedGit \
 #  "Remove .git directories found in modules"
-composer config scripts.post-install-cmd \
+${COMPOSER} config scripts.post-install-cmd \
   "@removeEmbeddedGit"
-composer config scripts.post-update-cmd \
+${COMPOSER} config scripts.post-update-cmd \
   "@removeEmbeddedGit"
 
 # Enable patching by dependencies, i.e., by our custom module lst-agldwg.
 # Use --json so that we get the proper Boolean value true and not
 # the string value "true".
-composer config --json extra.enable-patching true
+${COMPOSER} config --json extra.enable-patching true
 
 # "Undocumented" feature, for ARDC-internal-only use. To configure
 # the repositories to use the internal Bitbucket,
@@ -182,11 +189,11 @@ if [[ -z "${LST_GIT_REPO_BLOCK_CONTENT}" ]] ; then
     LST_GIT_REPO_BLOCK_CONTENT="${LST_GIT_REPO_PREFIX}/lst-agldwg-drupal-block-content.git"
 fi
 
-composer config repositories.lst-agldwg-theme \
+${COMPOSER} config repositories.lst-agldwg-theme \
    vcs "${LST_GIT_REPO_THEME}"
-composer config repositories.lst-agldwg \
+${COMPOSER} config repositories.lst-agldwg \
    vcs "${LST_GIT_REPO_MODULE}"
-composer config repositories.lst-agldwg-block-content \
+${COMPOSER} config repositories.lst-agldwg-block-content \
    vcs "${LST_GIT_REPO_BLOCK_CONTENT}"
 
 # We need dev/alpha versions of some modules.
@@ -200,7 +207,7 @@ composer config repositories.lst-agldwg-block-content \
 # From time to time, check if there's been a new release that
 # incorporates the features/fixes we need; remove from this
 # list if so.
-composer require \
+${COMPOSER} require \
  drupal/mimemail:1.x-dev#e72b92ec \
  drupal/typed_data:1.x-dev#27555f47 \
  drupal/rules:3.x-dev#8a63c77a \
@@ -208,12 +215,12 @@ composer require \
  drupal/eme:1.0.0-alpha11
 
 # Now we're ready to install our project module.
-composer require ardc/lst-agldwg
+${COMPOSER} require ardc/lst-agldwg
 
 # We will do some patching; use composer-patches for this.
 # We apply the patches only _after_ installing all our custom modules;
 # patches against drupal/core aren't done otherwise.
-composer require cweagans/composer-patches:~1.0 --update-with-dependencies
+${COMPOSER} require cweagans/composer-patches:~1.0 --update-with-dependencies
 
 # Now we know where drush is ...
 DRUSH="${ROOT}/${INST_DIR}/vendor/bin/drush"

@@ -430,9 +430,16 @@ chmod -w . settings.php settings settings/*
 cd ../..
 
 # Create private directory for use by backup_migrate backups.
-# Hmm, still needed?
-# TODO: ensure writable by PHP
-#mkdir -p "${FILE_PRIVATE_PATH}/backup_migrate"
+# Hmm, still needed? Answer: yes, because, currently,
+# we don't _remove_ this default destination, known in the
+# off-the-shelf configuration as "Private Files Directory".
+# If the directory doesn't exist, you get a Drupal log message
+# "Warning: opendir(private://backup_migrate/): Failed to open directory"
+# whenever you view the "Saved Backups" tab.
+# TODO (needed)?: ensure writable by PHP
+mkdir -p "${FILE_PRIVATE_PATH}/backup_migrate"
+# But we also make our own backup directory, labelled in the
+# configuration as "LinkStitcher backups directory".
 mkdir -p "${FILE_PRIVATE_PATH}/backups"
 # Also create config_sync; the existence of this directory is checked
 # as part of the "Status report".

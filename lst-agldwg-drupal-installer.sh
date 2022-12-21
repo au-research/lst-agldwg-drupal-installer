@@ -424,6 +424,11 @@ if (file_exists(__DIR__ . '/settings/settings.local.php')) {
 }
 EOF
 
+# Dodgy, but convenient: run environment-specific code.
+if [[ "$(type -t extra_settings)" == "function" ]]; then
+    extra_settings
+fi
+
 chmod -w . settings.php settings settings/*
 
 # Back up to the web directory ...

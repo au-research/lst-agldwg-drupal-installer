@@ -211,7 +211,7 @@ ${COMPOSER} require \
  drupal/typed_data:1.x-dev#b3d3e9a1 \
  drupal/rules:3.x-dev#9595fcaf \
  drupal/tr_rulez:1.x-dev \
- drupal/eme:1.0.0-alpha11
+ drupal/eme:1.0.0-alpha12
 
 # Now we're ready to install our project module.
 ${COMPOSER} require ardc/lst-agldwg

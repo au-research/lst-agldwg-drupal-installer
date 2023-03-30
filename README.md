@@ -6,7 +6,7 @@ instances of LinkStitcher.
 To use the script, you'll need:
 
   * bash
-  * PHP 7.4
+  * PHP 8.1
   * composer 2
 
 Prepare an INI file based on the contents of the sample provided.

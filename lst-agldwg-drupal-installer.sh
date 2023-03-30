@@ -11,7 +11,7 @@
 #     Must be a shell script that defines environment variables
 #     as used in this script.
 
-# Check requirements: PHP 7.4.
+# Check requirements: PHP 8.1.
 
 # Local settings file. Relative to the sites directory.
 # NB: The value set here must match the value used in settings.php below.
@@ -27,8 +27,8 @@ if [[ -z ${PHP_VERSION} ]] ; then
     echo No PHP, or unknown PHP version.
     exit 1
 fi
-if [[ ${PHP_VERSION} < 70400 ]] ; then
-    echo PHP version less than 7.4.
+if [[ ${PHP_VERSION} < 80100 ]] ; then
+    echo PHP version less than 8.1.
     exit 1
 fi
 

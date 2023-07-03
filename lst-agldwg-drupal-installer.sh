@@ -450,6 +450,12 @@ mkdir -p "${FILE_PRIVATE_PATH}/backups"
 # as part of the "Status report".
 mkdir -p "${FILE_PRIVATE_PATH}/config_sync"
 
+# TODO:
+# Patch Drupal's own .htaccess to hide access from prying eyes.
+# Based on https://drupal.stackexchange.com/questions/269076/how-do-i-restrict-access-to-the-install-php-file
+
+# <FilesMatch "\.(engine|inc|info|install|make|module|profile|test|po|sh|.*sql|theme|twig|tpl(\.php)?|xtmpl|yml)(~|\.sw[op]|\.bak|\.orig|\.save)?$|^(\.(?!well-known).*|Entries.*|Repository|Root|Tag|Template|composer\.(json|lock)|web\.config|yarn\.lock|package\.json)$|cron\.php|install\.php|update\.php|^(CHANGELOG|COPYRIGHT|INSTALL.*|LICENSE|MAINTAINERS|README|UPDATE).txt$|^#.*#$|\.php(~|\.sw[op]|\.bak|\.orig|\.save)$">
+
 # ... and now back to the top level of the installation.
 cd ..
 

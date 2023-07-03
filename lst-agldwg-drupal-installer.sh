@@ -207,7 +207,7 @@ ${COMPOSER} config repositories.lst-agldwg-block-content \
 # incorporates the features/fixes we need; remove from this
 # list if so.
 ${COMPOSER} require \
- drupal/mimemail:1.x-dev#e72b92ec \
+ drupal/mimemail:1.x-dev#85b32302 \
  drupal/typed_data:1.x-dev#b3d3e9a1 \
  drupal/rules:3.x-dev#9595fcaf \
  drupal/tr_rulez:1.x-dev \

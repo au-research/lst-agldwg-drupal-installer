@@ -165,7 +165,7 @@ ${COMPOSER} config --json extra.enable-patching true
 
 # "Undocumented" feature, for ARDC-internal-only use. To configure
 # the repositories to use the internal Bitbucket,
-# specify LST_GIT_REPO_PREFIX=https://git.ands.org.au/scm/lst
+# specify LST_GIT_REPO_PREFIX=https://git.ardc.edu.au/scm/lst
 if [[ -z "${LST_GIT_REPO_PREFIX}" ]] ; then
     LST_GIT_REPO_PREFIX=https://github.com/au-research
 fi

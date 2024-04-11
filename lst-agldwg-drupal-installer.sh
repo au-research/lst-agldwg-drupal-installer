@@ -387,10 +387,21 @@ if [[ -n "${FILE_PUBLIC_PATH}" ]] ; then
 
 \$settings['file_public_base_url'] = '${FILE_PUBLIC_BASE_URL}';
 \$settings['file_public_path'] = '${FILE_PUBLIC_PATH}';
+
+# New for Drupal 10. It seems the file_assets_path must
+# be relative to the installation.
+# But in practice this will be a symbolic link to the
+# value of file_public_path.
+\$settings['file_assets_path'] = 'sites/${SI_SITES_SUBDIR}/files';
+
 # Overwrite the config_sync_directory setting of the original settings.php.
 # (The existence of this directory is checked by the "Status report".)
 \$settings['config_sync_directory'] = '${FILE_PRIVATE_PATH}/config_sync';
 EOF
+    # Make symbolic link for asset files.
+    # See setting of file_assets_path above.
+    ln -s ${FILE_PUBLIC_PATH} files
+
     # TODO: Now update .htaccess
     # Update .htaccess in the files directory, so that
     # Requests for non-existent files are redirected to Drupal.

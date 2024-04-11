@@ -124,6 +124,10 @@ fi
 # some verbose logging, e.g., by setting
 # COMPOSER="composer -v"
 COMPOSER="composer"
+# Stop composer complaining that:
+# "Composer could not detect the root package (drupal/recommended-project)
+#  version, defaulting to '1.0.0'. See https://getcomposer.org/root-version"
+export COMPOSER_ROOT_VERSION=1.0.0
 
 # EXTREMELY IMPORTANT! On 2022-02-21 we added the "-n" option to the
 # "${COMPOSER} create-project command" below, because of the combination
@@ -194,6 +198,10 @@ ${COMPOSER} config repositories.lst-agldwg \
    vcs "${LST_GIT_REPO_MODULE}"
 ${COMPOSER} config repositories.lst-agldwg-block-content \
    vcs "${LST_GIT_REPO_BLOCK_CONTENT}"
+
+# From now on, credentials for the above repositories are required.
+# If none are available, the next command will request
+# a username and password.
 
 # We need dev/alpha versions of some modules.
 # Because they have lower stability, they must be installed
